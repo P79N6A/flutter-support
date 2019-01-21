@@ -1,9 +1,23 @@
+import java.nio.file.Path
+import java.nio.file.Paths
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.lfkdsk'
+group = 'com.github.lfkdsk'
 
 // project.apply from: 'flutter-support.gradle'
+
+//if (gradle.startParameter.taskNames.any {
+//    it.contains("flutter:uploadArchives")
+//}) {
+//    project.apply from: '../gradle/push.gradle'
+//    // project.apply from: 'flutter-flat-aar.gradle'
+//    // Task assembleRelease = project.rootProject.findProject(":${FLUTTER_MODULE_NAME}").tasks.findByName('assembleRelease')
+//    Task assembleRelease = project.rootProject.findProject(":fluttersupport").tasks.findByName('assemble')
+//    Task uploadAar = project.tasks.findByName("uploadArchives")
+//    uploadAar.dependsOn(assembleRelease)
+//}
 
 android {
     compileSdkVersion 26
@@ -37,3 +51,43 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+//apply from: 'https://raw.githubusercontent.com/yanzhenjie/bintray/master/bintray.gradle'
+
+task unzip(type: Copy) {
+    Path baseLibs = Paths.get(projectDir.absolutePath, "libs")
+    File releaseFlutterJar = baseLibs.resolve("flutter.jar").toFile()
+//    libflutter.so
+    def jniLibsPath = "${projectDir}/src/main/jniLibs/armeabi-v7a"
+
+    File file1 = new File(jniLibsPath)
+    if (!file1.exists()) {
+        file1.mkdirs()
+    }
+
+    def zipFile = file(releaseFlutterJar.absolutePath)
+    FileTree jarTree = zipTree(zipFile)
+    def zipFileIncludeSo = jarTree.matching {
+        include 'lib/**/*.so'
+    }
+
+    def outputDir = file(jniLibsPath)
+    zipFileIncludeSo.each { file ->
+        from file
+        into outputDir
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if(task.name.contains("Release")){
+        task.dependsOn 'unzip'
+    }
+}
+
+ext {
+    GROUP = 'com.lfkdsk.learning'
+    POM_ARTIFACT_ID = 'flutterdev'// 模块名
+    VERSION_NAME = '0.0.4.5'// 版本号
+}
+
+apply from: 'http://ci.byted.org/build/mavenuploadandroid.gradle'
