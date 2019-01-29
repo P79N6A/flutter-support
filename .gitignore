@@ -268,7 +268,7 @@ cmake-build-*/
 
 # Cursive Clojure plugin
 .idea/replstate.xml
-
+fluttersupport/src/main/jniLibs/armeabi-v7a/libflutter.so
 # Crashlytics plugin (for Android Studio and IntelliJ)
 
 # Editor-based Rest Client

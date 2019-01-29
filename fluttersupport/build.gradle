@@ -18,11 +18,13 @@ group = 'com.github.lfkdsk'
 //    Task uploadAar = project.tasks.findByName("uploadArchives")
 //    uploadAar.dependsOn(assembleRelease)
 //}
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 android {
     compileSdkVersion 26
-
-
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
     defaultConfig {
         minSdkVersion 16
@@ -31,7 +33,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -87,7 +88,7 @@ tasks.whenTaskAdded { task ->
 ext {
     GROUP = 'com.lfkdsk.learning'
     POM_ARTIFACT_ID = 'flutterdev'// 模块名
-    VERSION_NAME = '0.0.4.5'// 版本号
+    VERSION_NAME = '0.0.6.2-release'// 版本号
 }
 
 apply from: 'http://ci.byted.org/build/mavenuploadandroid.gradle'
