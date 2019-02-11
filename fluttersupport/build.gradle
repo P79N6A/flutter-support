@@ -88,7 +88,7 @@ tasks.whenTaskAdded { task ->
 ext {
     GROUP = 'com.lfkdsk.learning'
     POM_ARTIFACT_ID = 'flutterdev'// 模块名
-    VERSION_NAME = '0.0.6.2-release'// 版本号
+    VERSION_NAME = '0.0.6.3-release'// 版本号
 }
 
 apply from: 'http://ci.byted.org/build/mavenuploadandroid.gradle'
